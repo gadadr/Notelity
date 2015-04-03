@@ -5,20 +5,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import android.content.Context;
+import android.content.SharedPreferences;
 
 /**
  * Created by Rohan on 3/30/15.
  */
-
-import android.content.Context;
-import android.content.SharedPreferences;
 
 public class NotesDataSource {
 
     private static final String PREFKEY = "notes";
     private SharedPreferences notePrefs;
 
-    public NotesDataSource(MainActivity context) {
+    public NotesDataSource(Context context) {
         notePrefs = context.getSharedPreferences(PREFKEY, Context.MODE_PRIVATE);
     }
 

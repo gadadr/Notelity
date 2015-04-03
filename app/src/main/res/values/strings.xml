@@ -2,6 +2,6 @@
     <string name="app_name">Notelity</string>
 
     <string name="action_create">Create</string>
-    <string name="delete">Delete</string>
+    <string name="share_widget">Share</string>
 
 </resources>

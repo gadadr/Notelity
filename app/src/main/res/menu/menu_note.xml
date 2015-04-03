@@ -1,0 +1,9 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/action_share"
+        android:title="@string/share_widget"
+        android:showAsAction="always|withText"
+        android:icon="@drawable/abc_ic_menu_share_mtrl_alpha"/>
+
+</menu>
