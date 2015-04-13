@@ -53,6 +53,23 @@ public class NoteEditorActivity extends Activity {
 		if (item.getItemId() == android.R.id.home) {
 			saveAndFinish();
 		}
+
+        int id = item.getItemId();
+        if (id == R.id.action_share) {
+            EditText et = (EditText) findViewById(R.id.noteText);
+            String noteText = et.getText().toString();
+            noteText += "\n\n Created and shared using Notelity";
+
+            Intent chooser = null;
+            Intent shareIntent = new Intent();
+            shareIntent.setAction(Intent.ACTION_SEND);
+            shareIntent.setType("text/plain");
+            shareIntent.putExtra(Intent.EXTRA_TEXT, noteText);
+            chooser = shareIntent.createChooser(shareIntent, "Share");
+            startActivity(chooser);
+
+            return true;
+        }
 		return false;
 	}
 	

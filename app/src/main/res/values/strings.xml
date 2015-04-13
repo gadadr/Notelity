@@ -3,5 +3,6 @@
 
     <string name="action_create">Create</string>
     <string name="share_widget">Share</string>
+    <string name="search_string">Search</string>
 
 </resources>

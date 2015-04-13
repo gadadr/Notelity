@@ -1,8 +1,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
+        android:id="@+id/action_search"
+        android:actionViewClass="android.widget.SearchView"
+        android:icon="@android:drawable/ic_menu_search"
+        android:title="@string/search_string"
+        android:showAsAction="always"
+        android:orderInCategory="100"/>
+
+    <item
         android:id="@+id/action_create"
-        android:orderInCategory="100"
+        android:orderInCategory="101"
         android:showAsAction="always|withText"
         android:title="@string/action_create"
         android:icon="@drawable/ic_action_create_note"/>
