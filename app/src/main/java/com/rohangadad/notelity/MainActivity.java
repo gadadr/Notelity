@@ -3,6 +3,7 @@ package com.rohangadad.notelity;
 import android.app.ListActivity;
 import android.app.SearchManager;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -51,9 +52,9 @@ public class MainActivity extends ListActivity {
         notesList = datasource.findAll();
 
         Iterator<NoteItem> iterator1 = notesList.iterator();
-        while (iterator1.hasNext()){
+        while (iterator1.hasNext()) {
             NoteItem noteItem = iterator1.next();
-            if (noteItem.getText().equals("")){
+            if (noteItem.getText().equals("")) {
                 datasource.remove(noteItem);
                 refreshDisplay();
             }
@@ -61,15 +62,16 @@ public class MainActivity extends ListActivity {
 
         List<String> noteTitles = new ArrayList<>();
         Iterator<NoteItem> iterator2 = notesList.iterator();
-        while(iterator2.hasNext()) {
+        while (iterator2.hasNext()) {
             String lines[] = iterator2.next().getText().split("\\r?\\n");
             String temp = lines[0];
             noteTitles.add(temp);
         }
 
         ArrayAdapter<String> adapter =
-                new ArrayAdapter<>(this, R.layout.list_item_layout, noteTitles);
+                new MyAdapter(this, R.layout.list_item_layout, noteTitles);
         setListAdapter(adapter);
+
 
     }
 
