@@ -4,9 +4,7 @@ import android.app.ListActivity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -17,7 +15,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -36,20 +33,8 @@ public class MainActivity extends ListActivity {
         setContentView(R.layout.activity_main);
         registerForContextMenu(getListView());
 
-        Intent intent = getIntent();
-        if (intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
-            doSearch(query);
-        }
-
         datasource = new NotesDataSource(this);
         refreshDisplay();
-
-    }
-
-    private void doSearch(String query) {
-
-
     }
 
     public void refreshDisplay() {
@@ -72,7 +57,24 @@ public class MainActivity extends ListActivity {
             noteTitles.add(temp);
         }
 
-        ArrayAdapter<String> adapter = new MyAdapter(this, R.layout.list_item_layout, noteTitles);
+        ArrayAdapter<String> adapter = new MyAdapter(this, R.layout.list_item_layout, R.id.noteTitleTextView, noteTitles);
+        setListAdapter(adapter);
+    }
+
+    public void searchFunction(String query) {
+        notesList = datasource.findAll();
+        List<String> noteTitles = new ArrayList<>();
+
+        for (int i=0; i<notesList.size(); i++) {
+            NoteItem item = notesList.get(i);
+            if (item.getText().toLowerCase().contains(query.toLowerCase())) {
+                String lines[] = item.getText().split("\\r?\\n");
+                String temp = lines[0];
+                noteTitles.add(temp);
+            }
+        }
+
+        ArrayAdapter<String> adapter = new MyAdapter(MainActivity.this, R.layout.list_item_layout, R.id.noteTitleTextView, noteTitles);
         setListAdapter(adapter);
     }
 
@@ -89,30 +91,20 @@ public class MainActivity extends ListActivity {
         }
 
         SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
-            public boolean onQueryTextChange(String newText) {
+            public boolean onQueryTextChange(String query) {
                 // this is your adapter that will be filtered
+                searchFunction(query);
                 return true;
             }
 
             public boolean onQueryTextSubmit(String query) {
                 //Here u can get the value "query" which is entered in the search box.
-
-                notesList = datasource.findAll();
-
-                Intent intent = new Intent(MainActivity.this, SearchResults.class);
-                Bundle args = new Bundle();
-                args.putSerializable("ARRAYLIST",(Serializable)notesList);
-                args.putString("Query", query);
-                intent.putExtra("BUNDLE", args);
-                startActivity(intent);
-
+                searchFunction(query);
                 return true;
             }
         };
         searchView.setOnQueryTextListener(queryTextListener);
-
         return super.onCreateOptionsMenu(menu);
-
     }
 
     @Override
@@ -121,7 +113,6 @@ public class MainActivity extends ListActivity {
         if (item.getItemId() == R.id.action_create) {
             createNote();
         }
-
         return super.onOptionsItemSelected(item);
     }
 

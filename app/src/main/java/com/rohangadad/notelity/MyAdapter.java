@@ -17,8 +17,8 @@ public class MyAdapter extends ArrayAdapter {
 
     static int[] randomColors = new int[2];;
 
-    public MyAdapter(Context context, int resource, List objects) {
-        super(context, resource, objects);
+    public MyAdapter(Context context, int resource1, int resource2, List objects) {
+        super(context, resource1, resource2, objects);
     }
 
     @Override
@@ -27,12 +27,6 @@ public class MyAdapter extends ArrayAdapter {
 
         int[] colors = new int[] {Color.YELLOW, Color.RED, Color.GREEN, Color.BLUE, Color.MAGENTA,
         Color.BLACK, Color.CYAN};
-
-
-
-        for (int i=0;i<colors.length; i++) {
-
-        }
 
         if (position % 2 == 0) {
             view.setBackgroundColor(colors[getRandomColors()]);

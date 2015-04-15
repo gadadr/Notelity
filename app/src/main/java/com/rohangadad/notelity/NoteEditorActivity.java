@@ -54,7 +54,6 @@ public class NoteEditorActivity extends Activity {
 			saveAndFinish();
 		}
 
-
         if (item.getItemId() == R.id.action_share) {
             EditText et = (EditText) findViewById(R.id.noteText);
             String noteText = et.getText().toString();

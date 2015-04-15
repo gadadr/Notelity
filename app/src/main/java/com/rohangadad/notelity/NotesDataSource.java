@@ -36,7 +36,6 @@ public class NotesDataSource {
         }
 
         return noteList;
-
     }
 
     public boolean update(NoteItem note) {
@@ -57,6 +56,5 @@ public class NotesDataSource {
 
         return true;
     }
-
 
 }
