@@ -1,5 +1,6 @@
 package com.rohangadad.notelity;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -8,7 +9,7 @@ import android.annotation.SuppressLint;
  * Created by Rohan on 3/31/15.
  */
 
-public class NoteItem {
+public class NoteItem implements Serializable {
 
     private String key;
     private String text;

@@ -8,12 +8,14 @@ import android.widget.ArrayAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by Rohan on 4/13/2015.
  */
 public class MyAdapter extends ArrayAdapter {
 
+    static int[] randomColors = new int[2];;
 
     public MyAdapter(Context context, int resource, List objects) {
         super(context, resource, objects);
@@ -23,20 +25,33 @@ public class MyAdapter extends ArrayAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = super.getView(position, convertView, parent);
 
-        int[] colors = new int[] {Color.YELLOW, Color.RED, Color.GREEN, Color.BLUE, Color.MAGENTA};
+        int[] colors = new int[] {Color.YELLOW, Color.RED, Color.GREEN, Color.BLUE, Color.MAGENTA,
+        Color.BLACK, Color.CYAN};
 
-        if (position % 5 == 0) {
-            view.setBackgroundColor(colors[0]);
-        } else if (position % 5 == 1) {
-            view.setBackgroundColor(colors[1]);
-        } else if (position % 5 == 2) {
-            view.setBackgroundColor(colors[2]);
-        } else if (position % 5 == 3) {
-            view.setBackgroundColor(colors[3]);
+
+
+        for (int i=0;i<colors.length; i++) {
+
+        }
+
+        if (position % 2 == 0) {
+            view.setBackgroundColor(colors[getRandomColors()]);
         } else {
-            view.setBackgroundColor(colors[4]);
+            view.setBackgroundColor(colors[getRandomColors()]);
         }
 
         return view;
+    }
+
+    public int getRandomColors() {
+
+        Random random = new Random();
+
+        randomColors[1] = random.nextInt(7);
+        if (randomColors[0] == randomColors[1]) {
+            getRandomColors();
+        }
+        randomColors[0] = randomColors[1];
+        return (randomColors[0]);
     }
 }

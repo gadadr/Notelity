@@ -2,9 +2,11 @@ package com.rohangadad.notelity;
 
 import android.app.ListActivity;
 import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -13,7 +15,9 @@ import android.view.View;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SearchView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -68,18 +72,47 @@ public class MainActivity extends ListActivity {
             noteTitles.add(temp);
         }
 
-        ArrayAdapter<String> adapter =
-                new MyAdapter(this, R.layout.list_item_layout, noteTitles);
+        ArrayAdapter<String> adapter = new MyAdapter(this, R.layout.list_item_layout, noteTitles);
         setListAdapter(adapter);
-
-
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+
+        if (null != searchView) {
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        }
+
+        SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
+            public boolean onQueryTextChange(String newText) {
+                // this is your adapter that will be filtered
+                return true;
+            }
+
+            public boolean onQueryTextSubmit(String query) {
+                //Here u can get the value "query" which is entered in the search box.
+
+                notesList = datasource.findAll();
+
+                Intent intent = new Intent(MainActivity.this, SearchResults.class);
+                Bundle args = new Bundle();
+                args.putSerializable("ARRAYLIST",(Serializable)notesList);
+                args.putString("Query", query);
+                intent.putExtra("BUNDLE", args);
+                startActivity(intent);
+
+                return true;
+            }
+        };
+        searchView.setOnQueryTextListener(queryTextListener);
+
+        return super.onCreateOptionsMenu(menu);
+
     }
 
     @Override
@@ -88,8 +121,11 @@ public class MainActivity extends ListActivity {
         if (item.getItemId() == R.id.action_create) {
             createNote();
         }
+
         return super.onOptionsItemSelected(item);
     }
+
+
 
     private void createNote() {
         NoteItem note = NoteItem.getNew();
@@ -139,4 +175,3 @@ public class MainActivity extends ListActivity {
     }
 
 }
-

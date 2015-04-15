@@ -54,8 +54,8 @@ public class NoteEditorActivity extends Activity {
 			saveAndFinish();
 		}
 
-        int id = item.getItemId();
-        if (id == R.id.action_share) {
+
+        if (item.getItemId() == R.id.action_share) {
             EditText et = (EditText) findViewById(R.id.noteText);
             String noteText = et.getText().toString();
             noteText += "\n\n Created and shared using Notelity";
