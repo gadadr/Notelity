@@ -25,7 +25,7 @@ public class MainActivity extends ListActivity {
     private static final int MENU_DELETE_ID = 1002;
     private int currentNoteId;
     private NotesDataSource datasource;
-    List<NoteItem> notesList;
+    ArrayList<NoteItem> notesList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +38,7 @@ public class MainActivity extends ListActivity {
     }
 
     public void refreshDisplay() {
-        notesList = datasource.findAll();
+        notesList = (ArrayList) datasource.findAll();
 
         Iterator<NoteItem> iterator1 = notesList.iterator();
         while (iterator1.hasNext()) {
@@ -49,32 +49,27 @@ public class MainActivity extends ListActivity {
             }
         }
 
-        List<String> noteTitles = new ArrayList<>();
+        ArrayList<NoteItem> noteItems = new ArrayList<>();
         Iterator<NoteItem> iterator2 = notesList.iterator();
         while (iterator2.hasNext()) {
-            String lines[] = iterator2.next().getText().split("\\r?\\n");
-            String temp = lines[0];
-            noteTitles.add(temp);
+            NoteItem item = iterator2.next();
+            noteItems.add(item);
         }
 
-        ArrayAdapter<String> adapter = new MyAdapter(this, R.layout.list_item_layout, R.id.noteTitleTextView, noteTitles);
+        ArrayAdapter<NoteItem> adapter = new MyAdapter(this, R.layout.list_item_layout, noteItems);
         setListAdapter(adapter);
     }
 
     public void searchFunction(String query) {
-        notesList = datasource.findAll();
-        List<String> noteTitles = new ArrayList<>();
+        notesList = (ArrayList) datasource.findAll();
 
         for (int i=0; i<notesList.size(); i++) {
             NoteItem item = notesList.get(i);
-            if (item.getText().toLowerCase().contains(query.toLowerCase())) {
-                String lines[] = item.getText().split("\\r?\\n");
-                String temp = lines[0];
-                noteTitles.add(temp);
+            if (!item.getText().toLowerCase().contains(query.toLowerCase())) {
+                notesList.remove(i);
             }
         }
-
-        ArrayAdapter<String> adapter = new MyAdapter(MainActivity.this, R.layout.list_item_layout, R.id.noteTitleTextView, noteTitles);
+        ArrayAdapter<NoteItem> adapter = new MyAdapter(MainActivity.this, R.layout.list_item_layout, notesList);
         setListAdapter(adapter);
     }
 
@@ -116,8 +111,6 @@ public class MainActivity extends ListActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
-
     private void createNote() {
         NoteItem note = NoteItem.getNew();
         Intent intent = new Intent(this, NoteEditorActivity.class);
@@ -156,7 +149,6 @@ public class MainActivity extends ListActivity {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-
         if (item.getItemId() == MENU_DELETE_ID) {
             NoteItem note = notesList.get(currentNoteId);
             datasource.remove(note);
@@ -164,5 +156,4 @@ public class MainActivity extends ListActivity {
         }
         return super.onContextItemSelected(item);
     }
-
 }

@@ -6,7 +6,7 @@
 
     <TextView
         android:id="@+id/noteTitleTextView"
-        android:layout_width="200dp"
+        android:layout_width="230dp"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:padding="12dp"
@@ -16,13 +16,12 @@
         android:textColor="#FFFFFF"
         android:layout_alignParentLeft="true">
     </TextView>
-
     <TextView
-        android:layout_width="100dp"
+        android:id="@+id/noteTitleDateView"
+        android:layout_width="85dp"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:padding="12dp"
-        android:text="Date"
         android:singleLine="true"
         android:textSize="18sp"
         android:ellipsize="end"
